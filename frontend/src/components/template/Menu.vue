@@ -8,16 +8,16 @@
     >
         <v-list-item>
         <v-list-item-title>
-            <div class="menu">
+            <div>
                 <router-link tag="div" to="/dashboard">
                 <v-icon>home</v-icon>
                 Início
                 </router-link>
-                <v-icon @click="$emit('toggleMenu')">
-                    menu
-                </v-icon>
             </div>
         </v-list-item-title>
+        <v-icon class="menu" @click="$emit('toggleMenu')">
+            menu
+        </v-icon>
         </v-list-item>
         <hr>
         <v-list-item>
@@ -39,11 +39,14 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     name: 'Menu',
     methods: {
         logout () {
             this.$store.commit('setMenu', false)
+            axios.defaults.headers.common['Authorization'] = ''
+            localStorage.removeItem('parking_user')
             this.$emit('toggleMenu')
             this.$router.push({path: '/'})
         }
@@ -53,7 +56,6 @@ export default {
 
 <style>
     .menu{
-        display: flex;
-        justify-content: space-between;
+        float: right;
     }
 </style>

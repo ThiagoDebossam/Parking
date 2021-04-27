@@ -81,7 +81,6 @@ export default {
       }
     },
     mounted() {
-        console.log('car')
         this.user = JSON.parse(localStorage.getItem('parking_user'))
         this.$store.commit('setMenu', true)
         this.getCars()

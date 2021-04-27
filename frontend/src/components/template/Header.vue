@@ -43,4 +43,8 @@ export default {
       display: flex;
       justify-content: center;
     }
+    .header .title span{
+        font-weight: 250;
+        font-size: 1.8rem;
+    }
 </style>

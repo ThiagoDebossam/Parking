@@ -22,7 +22,7 @@ module.exports = app => {
             name: user.name,
             email: user.email,
             iat: now,
-            exp: now * (60 * 60 * 24 * 3)
+            exp: now + (60 * 60 * 24 * 3)
         }
 
         res.json({

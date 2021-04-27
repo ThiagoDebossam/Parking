@@ -1,7 +1,8 @@
 <template>
   <div class="content">
       <v-container>
-        <CarList 
+        <CarList
+            v-if="permission"
             @openForm="dialog = !dialog"
             :renderList="renderList"
             />
@@ -15,6 +16,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { baseApiUrl } from '../../../global'
 import CarList from '../cars/CarList'
 import CarForm from '../cars/CarForm'
 export default {
@@ -26,13 +29,29 @@ export default {
     data() {
         return {
             dialog: false,
-            renderList: true
+            renderList: false,
+            permission: false
         }
+    },
+    mounted() {
+        this.validateToken()
     },
     methods: {
         cancelForm () {
             this.renderList = !this.renderList
             this.dialog = !this.dialog
+        },
+        validateToken () {
+            this.user = JSON.parse(localStorage.getItem('parking_user'))
+            if (!this.user) {
+                this.$router.push({path: '/'})
+            } else {
+                axios.post(`${baseApiUrl}/validateToken`, this.user)
+                .then(() => {
+                    axios.defaults.headers.common['Authorization'] = 'bearer ' + this.user.token
+                    this.permission = true
+                })
+            }
         }
     }
 }

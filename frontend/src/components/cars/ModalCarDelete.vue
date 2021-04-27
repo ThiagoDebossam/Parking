@@ -23,7 +23,7 @@
                         Tempo de uso: <span>{{usedTime}}</span>
                     </div>
                     <div>
-                        Finazalido em : <span>{{date}}</span>
+                        Finalizar em : <span>{{date}}</span>
                     </div>
                 </div>
             </v-card>

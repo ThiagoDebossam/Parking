@@ -9,7 +9,6 @@
             <v-text-field
                 v-if="showSignup"
                 v-model="user.name"
-                :rules="nameRules"
                 label="Nome"
                 required
             ></v-text-field>
@@ -23,7 +22,6 @@
             <v-text-field
                 type="password"
                 v-model="user.password"
-                :rules="nameRules"
                 label="Senha"
                 required
             ></v-text-field>
@@ -31,7 +29,6 @@
                 v-if="showSignup"
                 type="password"
                 v-model="user.confirmPassword"
-                :rules="nameRules"
                 label="Confirme sua senha"
                 required
             ></v-text-field>
@@ -83,14 +80,14 @@ export default {
             let method = this.showSignup ? 'signup' : 'signin'
             axios.post(`${baseApiUrl}/${method}`, this.user)
                 .then(ret => {
-                    // if (ret.data.token) require('axios').defaults.headers.common['Authorization'] = 'bearer ' + ret.data.token
+                    this.valid = true
                     localStorage.setItem('parking_user', JSON.stringify(ret.data))
+                    axios.defaults.headers.common['Authorization'] = 'bearer ' + ret.data.token
                     if (method === 'signin') {
                         this.$router.push({path: '/dashboard'})
                     } else {
                         this.showSignup = false
                     }
-                    this.user = {}
                 })
                 .catch(err => showError(err))
         }
